@@ -24,6 +24,11 @@ runs:
   steps:
     - shell: bash
       run: |
+        set -o nounset
+        set -o errexit
+        set -o pipefail
+        if [ "${TRACE-0}" -eq 1 ]; then set -o xtrace; fi
+
         readonly COMMIT_USER_NAME='${{ inputs.COMMIT_USER_NAME }}'
         readonly COMMIT_USER_EMAIL='${{ inputs.COMMIT_USER_EMAIL }}'
         readonly TIME_ELAPSED_THRESHOLD_IN_DAYS='${{ inputs.TIME_ELAPSED_THRESHOLD_IN_DAYS }}'
