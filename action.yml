@@ -25,8 +25,8 @@ runs:
     - shell: bash
       run: |
         git --version
-        git config user.name "$INPUT_COMMIT_USER_NAME"
-        git config user.email "$INPUT_COMMIT_USER_EMAIL"
+        git config user.name "$COMMIT_USER_NAME"
+        git config user.email "$COMMIT_USER_EMAIL"
 
         # Get the last commit date for the current branch
         LAST_COMMIT_DATE=$(git log -1 --format="%ct")
@@ -42,12 +42,12 @@ runs:
         if [ "$DAYS_AGO" -gt "$INPUT_TIME_ELAPSED_THRESHOLD_IN_DAYS" ]; then
           echo "$DAYS_AGO > $INPUT_TIME_ELAPSED_THRESHOLD_IN_DAYS -> add empty commit"
 
-          git commit --allow-empty -m "$INPUT_COMMIT_MESSAGE"
+          git commit --allow-empty -m "$COMMIT_MESSAGE"
           git push
 
           echo "done"
         else
-          echo "$DAYS_AGO <= $INPUT_TIME_ELAPSED_THRESHOLD_IN_DAYS -> nothing to do"
+          echo "$DAYS_AGO <= $TIME_ELAPSED_THRESHOLD_IN_DAYS -> nothing to do"
         fi
 
 branding:
