@@ -1,8 +1,9 @@
+<!-- markdownlint-disable MD013 MD031 -->
 # keep-github-actions-alive-min-dependencies
 
 GitHub action to keep Github-Actions alive but with minimal dependencies.
 
-This GitHub Action is inspired by https://github.com/gautamkrishnar/keepalive-workflow.
+This GitHub Action is inspired by [gautamkrishnar/keepalive-workflow](https://github.com/gautamkrishnar/keepalive-workflow).
 
 ## Why
 
@@ -19,9 +20,8 @@ the action will add an empty commit to the git repository.
 ## How to use
 
 1. Go to repository settings, Click on Actions > General. Update the "Workflow permissions" to "Read and write permissions". Click on save.
-    ![](./assets/workflow_permissions.png)
-1.
-    ```yaml
+    ![Picture to repo action settings](./assets/workflow_permissions.png)
+1. ```yaml
     name: Github Action with a cronjob trigger
     on:
     schedule:
@@ -36,7 +36,6 @@ the action will add an empty commit to the git repository.
         # - steps
         - uses: entepotenz/keep-github-actions-alive-min-dependencies@v1
     ```
-
 
 ## Options
 
