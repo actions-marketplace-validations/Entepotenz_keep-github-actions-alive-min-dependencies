@@ -1,0 +1,55 @@
+name: "Keep your GitHub Actions alive automatically"
+description: "GitHub action to keep GitHub-Actions alive but with minimal dependencies"
+author: <Entepotenz>
+
+inputs:
+  COMMIT_USER_EMAIL:
+    description: git email for the commit
+    default: "github-action-keepalive-bot@github.com"
+    required: false
+  COMMIT_USER_NAME:
+    description: git user name for the commit
+    default: "GitHub Action - Workflow keepalive"
+    required: false
+  COMMIT_MESSAGE:
+    description: git message for the commit
+    default: "GitHub Action - Workflow keepalive"
+    required: false
+  TIME_ELAPSED_THRESHOLD_IN_DAYS:
+    description: threshold for inactivity in the git repo which triggers keep alive commit (in days)
+    default: '50'
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        git --version
+        git config user.name "$INPUT_COMMIT_USER_NAME"
+        git config user.email "$INPUT_COMMIT_USER_EMAIL"
+
+        # Get the last commit date for the current branch
+        LAST_COMMIT_DATE=$(git log -1 --format="%ct")
+
+        CURRENT_DATE=$(date "+%s")
+
+        TIME_DIFFERENCE=$((CURRENT_DATE - LAST_COMMIT_DATE))
+
+        DAYS_AGO=$((TIME_DIFFERENCE / (60 * 60 * 24)))
+
+        echo "Last commit is '$DAYS_AGO' days ago"
+
+        if [ "$DAYS_AGO" -gt "$INPUT_TIME_ELAPSED_THRESHOLD_IN_DAYS" ]; then
+          echo "$DAYS_AGO > $INPUT_TIME_ELAPSED_THRESHOLD_IN_DAYS -> add empty commit"
+
+          git commit --allow-empty -m "$INPUT_COMMIT_MESSAGE"
+          git push
+
+          echo "done"
+        else
+          echo "$DAYS_AGO <= $INPUT_TIME_ELAPSED_THRESHOLD_IN_DAYS -> nothing to do"
+        fi
+
+branding:
+  icon: truck
+  color: blue
