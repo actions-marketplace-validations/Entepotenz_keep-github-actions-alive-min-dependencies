@@ -24,6 +24,11 @@ runs:
   steps:
     - shell: bash
       run: |
+        readonly COMMIT_USER_NAME='${{ inputs.COMMIT_USER_NAME }}'
+        readonly COMMIT_USER_EMAIL='${{ inputs.COMMIT_USER_EMAIL }}'
+        readonly TIME_ELAPSED_THRESHOLD_IN_DAYS='${{ inputs.TIME_ELAPSED_THRESHOLD_IN_DAYS }}'
+        readonly COMMIT_MESSAGE='${{ inputs.COMMIT_MESSAGE }}'
+
         git --version
         git config user.name "$COMMIT_USER_NAME"
         git config user.email "$COMMIT_USER_EMAIL"
@@ -39,8 +44,8 @@ runs:
 
         echo "Last commit is '$DAYS_AGO' days ago"
 
-        if [ "$DAYS_AGO" -gt "$INPUT_TIME_ELAPSED_THRESHOLD_IN_DAYS" ]; then
-          echo "$DAYS_AGO > $INPUT_TIME_ELAPSED_THRESHOLD_IN_DAYS -> add empty commit"
+        if [ "$DAYS_AGO" -gt "$TIME_ELAPSED_THRESHOLD_IN_DAYS" ]; then
+          echo "$DAYS_AGO > $TIME_ELAPSED_THRESHOLD_IN_DAYS -> add empty commit"
 
           git commit --allow-empty -m "$COMMIT_MESSAGE"
           git push
