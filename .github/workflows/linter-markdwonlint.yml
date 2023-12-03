@@ -13,7 +13,7 @@ jobs:
     name: run markdownlint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
       - uses: DavidAnson/markdownlint-cli2-action@455b6612a7b7a80f28be9e019b70abdd11696e4e  # v14.0.0
