@@ -1,5 +1,4 @@
 ---
-
 name: Create GitHubNext diagram
 # yamllint disable-line rule:truthy
 on:
@@ -12,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Update diagram
         uses: githubocto/repo-visualizer@0.9.1
         with:
